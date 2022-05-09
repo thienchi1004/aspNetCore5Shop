@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebBanHang.Models.Role>
+
+@{
+	ViewData["Title"] = "Quản lý quuyeefn truy cập";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+	<h1>Quản lý quyền truy cập</h1>
+
+	<p>
+		<a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.RoleName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Description)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.RoleName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Description)
+					</td>
+					<td>
+						<a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.RoleId">Details</a> |
+						<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.RoleId">Edit</a> |
+						<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.RoleId">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
