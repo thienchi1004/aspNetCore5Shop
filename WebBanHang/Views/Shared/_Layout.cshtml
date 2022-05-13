@@ -22,7 +22,6 @@
 	<link rel="stylesheet" href="~/assets/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="~/assets/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="~/assets/css/style.css" type="text/css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/~/assets/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -63,13 +62,13 @@
 	</div>*@
 	<!-- Offcanvas Menu End -->
 	<!-- Header Section Begin -->
-	@await Html.PartialAsync("_HeaderPartialView.cshtml");
+	@await Html.PartialAsync("_HeaderPartialView.cshtml")
 	<!-- Header Section End -->
 
 	@RenderBody()
 
 	<!-- Footer Section Begin -->
-	@await Html.PartialAsync("_FooterPartialView.cshtml");
+	@await Html.PartialAsync("_FooterPartialView.cshtml")
 	<!-- Footer Section End -->
 	<!-- Search Begin -->
 	<div class="search-model">
@@ -93,7 +92,7 @@
 	<script src="~/assets/js/owl.carousel.min.js"></script>
 	<script src="~/assets/js/main.js"></script>
 	@await Component.InvokeAsync("Notyf")
-	@await RenderSectionAsync("Script", required: false)
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

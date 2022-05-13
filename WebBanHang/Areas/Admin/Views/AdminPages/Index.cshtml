@@ -1,0 +1,91 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebBanHang.Models.Page>
+
+@{
+	int CurrentPage = ViewBag.CurrentPage;
+	ViewData["Title"] = "Pages List" + CurrentPage;
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+	<!-- ============================================================== -->
+	<!-- data table  -->
+	<!-- ============================================================== -->
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="mb-0">Pages List </h5>
+				<span> page : @CurrentPage </span>
+				<p>
+					<a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+				</p>
+			</div>
+			<div class="card-body">
+				@*<div class="table-responsive">
+					<div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="d-md-flex">
+								<div class="m-b-10 m-r-15">
+									<select class="custom-select" id="isRoles" name="isRoles" style="min-width: 200px" asp-items="ViewBag.QuyenTruyCap">
+										<option value="0" disabled selected>Roles</option>
+									</select>
+								</div>
+								<div class="m-b-10">
+									<select class="custom-select" id="isStatus" name="isStatus" style="min-width: 200px" asp-items="ViewBag.lsTrangThai">
+										<option value="" disabled selected>Status</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>*@
+
+					<br />
+
+					<table id="example" class="table table-striped table-bordered second" style="width:100%">
+						<thead>
+							<tr>
+								<th>Page ID</th>
+								<th>Page Name</th>
+								<th>Status</th>
+								<th>#</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if (Model != null)
+							{
+								foreach (var item in Model)
+								{
+									<tr>
+										<td>@item.PageId</td>
+										<td>@item.PageName</td>
+										<td>
+											@if (item.Published == true)
+											{
+												<p><span class="badge-dot badge-success mr-1"></span> Published</p>
+											}
+											else
+											{
+												<p><span class="badge-dot badge-danger mr-1"></span>Non-published</p>
+											}
+										</td>
+										<td>
+											<a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.PageId">Details</a> |
+											<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.PageId">Edit</a> |
+											<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.PageId">Delete</a>
+										</td>
+									</tr>
+								}
+							}
+
+
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- end data table  -->
+		<!-- ============================================================== -->
+	</div>

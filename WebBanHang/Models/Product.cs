@@ -32,6 +32,7 @@ namespace WebBanHang.Models
         public string MetaDesc { get; set; }
         public string MetaKey { get; set; }
         public int? UnitsInStock { get; set; }
+        public int? InStock { get; set; }
 
         public virtual Category Cate { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

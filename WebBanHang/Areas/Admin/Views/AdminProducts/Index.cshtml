@@ -1,0 +1,146 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebBanHang.Models.Product>
+
+@{
+	int CurrentPage = ViewBag.CurrentPage;
+	ViewData["Title"] = "Products List" + CurrentPage;
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- recent orders  -->
+	<!-- ============================================================== -->
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="mb-0">Products List </h5>
+				<span> Page : @CurrentPage </span>
+				<p>
+					<a class="btn btn-outline-primary float-right " asp-action="Create"> + Add Product</a>
+				</p>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="d-md-flex">
+								<div class="m-b-10 m-r-15">
+									<select class="custom-select" id="cateID" name="cateID" style="min-width: 200px" asp-items="ViewBag.DanhMuc">
+										<option selected>Choose Category</option>
+										<option value="0">All</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<br />
+					<table class="table">
+						<thead class="bg-light">
+							<tr class="border-0">
+								<th class="border-0">ID</th>
+								<th class="border-0">Image</th>
+								<th class="border-0">Product Name</th>
+								<th class="border-0">Category Name</th>
+								<th class="border-0">In Stock</th>
+								<th class="border-0">Price</th>
+								<th class="border-0">Status</th>
+								<th class="border-0">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if (Model != null)
+							{
+								foreach (var item in Model)
+								{
+
+									<tr>
+										<td>@item.ProductId</td>
+										<td>
+											<div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+										</td>
+										<td>@item.ProductName</td>
+										<td>@item.Cate.CateName </td>
+										<td>@item.InStock</td>
+										<td>@item.Price $ </td>
+										<td>
+											@if (item.UnitsInStock.Value > 0)
+											{
+												<p><span class="badge-dot badge-success mr-1"></span>In stock</p>
+											}
+											else
+											{
+												<p><span class="badge-dot badge-danger mr-1"></span>Out stock</p>
+											}
+
+										</td>
+										<td>
+											<a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+											<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+											<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+										</td>
+									</tr>
+
+
+								}
+							}
+						</tbody>
+
+					</table>
+					<br />
+					<div aria-label="Page navigation example ">
+						<ul class="pagination float-right">
+							<pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminProducts" asp-route-cateID="@ViewBag.CurrentCateID" asp-action="Index" />
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ============================================================== -->
+	<!-- end recent orders  -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- customer acquistion  -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- end customer acquistion  -->
+	<!-- ============================================================== -->
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+
+			jQuery('#cateID').change(function () {
+				var cateID = jQuery(this).children(":selected").attr("value");
+				cateID = parseFloat(cateID);
+				$('#cateID option')
+					.removeAttr('selected');
+				$("#cateID > [value= " + cateID + "]").attr("selected", "true");
+
+				$.ajax({
+					url: '/Admin/AdminProducts/Filtter',
+					dataType: 'json',
+					type: "GET",
+					data: {
+						CateID: cateID
+					},
+					async: true,
+					success: function (results) {
+						if (results.status == "success") {
+							window.location.href = results.redirectUrl;
+							console.log(results.redirectUrl);
+						}
+					},
+					error: function (xhr) {
+						alert('error')
+					}
+				});
+			});
+		});
+	</script>
+}
