@@ -7,6 +7,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PagedList.Core;
 using WebBanHang.Extension;
 using WebBanHang.Models;
@@ -92,7 +93,9 @@ namespace WebBanHang.Areas.Admin.Controllers
                     .OrderByDescending(c => c.ProductId).ToList();
             }
 
-            return Json("success", lsProducts);
+            var results = JsonConvert.SerializeObject(lsProducts);
+
+            return Json(new { status = "success", redirectUrl = results });
         }
 
 

@@ -159,11 +159,12 @@
 					},
 					async: true,
 					success: function (result) {
+						if (result.status == "success") {
 
-				
+						}
 					},	
-					error: function () {
-						alert('error')
+					error: function (error) {
+						alert(error)
 					}
 				});
 			});
