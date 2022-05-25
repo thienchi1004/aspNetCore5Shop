@@ -6,39 +6,73 @@
 }
 
 
-	<h1>Quản lý quyền truy cập</h1>
+<div class="page-header">
+	<h2 class="header-title">Roles List</h2>
+	<div class="header-sub-title">
+		<nav class="breadcrumb breadcrumb-dash">
+			<a class="breadcrumb-item" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="anticon anticon-home m-r-5"></i>Home</a>
+			<a class="breadcrumb-item" href="#">Roles</a>
+			<span class="breadcrumb-item active">Roles List</span>
+		</nav>
+	</div>
+</div>
+<div class="card">
+	<div class="card-body">
+		<div class="row m-b-30">
+			<div class="col-lg-8">
+				<div class="d-md-flex">
+					<div class="m-b-10 m-r-15">
+						<select class="custom-select" id="isRoles" name="isRoles" style="min-width: 200px" asp-items="ViewBag.QuyenTruyCap">
+							<option value="0" disabled selected>Roles</option>
+						</select>
+					</div>
+					<div class="m-b-10">
+						<select class="custom-select" id="isStatus" name="isStatus" style="min-width: 200px" asp-items="ViewBag.lsTrangThai">
+							<option value="" disabled selected>Status</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 text-right">
+				<a class="btn btn-primary" asp-action="Create">
+					<i class="anticon anticon-plus-circle m-r-5"></i>
+					<span>Add Roles</span>
+				</a>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							@Html.DisplayNameFor(model => model.RoleName)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Description)
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.RoleName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Description)
+							</td>
+							<td>
+								<a class="btn btn-info btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RoleId">Details</a> |
+								<a class="btn btn-secondary btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RoleId">Edit</a> |
+								<a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RoleId">Delete</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
-	<p>
-		<a class="btn btn-outline-primary" asp-action="Create">Create New</a>
-	</p>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.RoleName)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Description)
-				</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.RoleName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Description)
-					</td>
-					<td>
-						<a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.RoleId">Details</a> |
-						<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.RoleId">Edit</a> |
-						<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.RoleId">Delete</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>

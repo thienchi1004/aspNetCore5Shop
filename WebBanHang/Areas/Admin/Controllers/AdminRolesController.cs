@@ -22,7 +22,15 @@ namespace WebBanHang.Areas.Admin.Controllers
         // GET: Admin/Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles.ToListAsync());
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "Description");
+
+            List<SelectListItem> lsTrangThai = new List<SelectListItem>();
+            lsTrangThai.Add(new SelectListItem() { Text = "Active", Value = "1" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Block", Value = "0" });
+            ViewData["lsTrangThai"] = lsTrangThai;
+
+            var dbShopContext = _context.Roles.Include(a => a.Accounts);
+            return View(await dbShopContext.ToListAsync());
         }
 
         // GET: Admin/Roles/Details/5

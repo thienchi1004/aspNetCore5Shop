@@ -1,139 +1,150 @@
 ﻿@model WebBanHang.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Product Details" + Model.ProductName;
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-	<dl class="row">
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ProductName)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.ProductName)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ShortDesc)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.ShortDesc)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Description)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Description)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Price)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Price)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Discount)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Discount)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Image)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Image)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Video)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Video)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.DateCreated)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.DateCreated)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.DateModified)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.DateModified)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.BestSellers)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.BestSellers)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.HomeFlag)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.HomeFlag)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Active)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Active)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Tags)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Tags)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Tittle)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Tittle)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Alias)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Alias)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.MetaDesc)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.MetaDesc)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.MetaKey)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.MetaKey)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.InStock)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.InStock)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.UnitsInStock)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.UnitsInStock)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Cate)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Cate.CateId)
-		</dd>
-	</dl>
+<div class="page-header">
+	<h2 class="header-title">Product Details</h2>
+	<div class="header-sub-title">
+		<nav class="breadcrumb breadcrumb-dash">
+			<a class="breadcrumb-item" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="anticon anticon-home m-r-5"></i>Home</a>
+			<a class="breadcrumb-item" href="#">Product</a>
+			<span class="breadcrumb-item active">Product List</span>
+		</nav>
+	</div>
 </div>
+<div class="card">
+	<div class="card-body">
+
+		<div class="table-responsive">
+			<table class="product-info-table m-t-20">
+				<tbody>
+					<tr>
+						<td>ID</td>
+						<td>@Model.ProductId</td>
+					</tr>
+					<tr>
+						<td>Product Name</td>
+						<td>@Model.ProductName</td>
+					</tr>
+					<tr>
+						<td>Short Desc</td>
+						<td>@Model.ShortDesc</td>
+					</tr>
+					<tr>
+						<td>Price</td>
+						<td>@Model.Price</td>
+					</tr>
+					<tr>
+						<td>Discount</td>
+						<td>@Model.Discount</td>
+					</tr>
+					<tr>
+						<td>Active</td>
+						<td>
+							@if (Model.Active == true)
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" checked>
+									<label for="switch-1"></label>
+								</div>
+							}
+							else
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" disabled>
+									<label for="switch-1"></label>
+								</div>
+							}
+						</td>
+					</tr>
+					<tr>
+						<td>Home Flag</td>
+						<td>
+							@if (Model.HomeFlag == true)
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" checked>
+									<label for="switch-1"></label>
+								</div>
+							}
+							else
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" disabled>
+									<label for="switch-1"></label>
+								</div>
+							}
+						</td>
+					</tr>
+					<tr>
+						<td>Best Sellers</td>
+						<td>
+							@if (Model.BestSellers == true)
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" checked>
+									<label for="switch-1"></label>
+								</div>
+							}
+							else
+							{
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" disabled>
+									<label for="switch-1"></label>
+								</div>
+							}
+						</td>
+					</tr>
+					<tr>
+						<td>Category</td>
+						<td>@Model.Cate.CateName</td>
+					</tr>
+					<tr>
+						<td>Date Created</td>
+						<td>@Model.DateCreated</td>
+					</tr>
+					<tr>
+						<td>Date Modified</td>
+						<td>@Model.DateModified</td>
+					</tr>
+					<tr>
+						<td>Tittle</td>
+						<td>@Model.Tittle</td>
+					</tr>
+					<tr>
+						<td>Meta Desc</td>
+						<td>@Model.MetaDesc</td>
+					</tr>
+					<tr>
+						<td>Meta Key</td>
+						<td>@Model.MetaKey</td>
+					</tr>
+					<tr>
+						<td>Tags</td>
+						<td>@Model.Tags</td>
+					</tr>
+					<tr>
+						<td>Product Image</td>
+						<td>
+							<img src="~/image/products/@Model.Image" alt="@Model.Tittle" />
+						</td>
+					</tr>
+					<tr>
+						<td>Description</td>
+						<td>@Model.Description</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+	<a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
 </div>

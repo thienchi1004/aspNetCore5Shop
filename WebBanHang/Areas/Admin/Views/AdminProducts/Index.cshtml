@@ -7,108 +7,112 @@
 	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="row">
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- recent orders  -->
-	<!-- ============================================================== -->
-	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-header">
-				<h5 class="mb-0">Products List </h5>
-				<span> Page : @CurrentPage </span>
-				<p>
-					<a class="btn btn-outline-primary float-right " asp-action="Create"> + Add Product</a>
-				</p>
-			</div>
-			<div class="card-body">
-				<div class="table-responsive">
-					<div class="row">
-						<div class="col-sm-12 col-md-6">
-							<div class="d-md-flex">
-								<div class="m-b-10 m-r-15">
-									<select class="custom-select" id="cateID" name="cateID" style="min-width: 200px" asp-items="ViewBag.DanhMuc">
-										<option selected>Choose Category</option>
-										<option value="0">All</option>
-									</select>
-								</div>
-							</div>
-						</div>
+<div class="page-header">
+	<h2 class="header-title">Products List</h2>
+	<div class="header-sub-title">
+		<nav class="breadcrumb breadcrumb-dash">
+			<a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+			<a class="breadcrumb-item" href="#">Products</a>
+			<span class="breadcrumb-item active">Products List</span>
+		</nav>
+	</div>
+</div>
+
+<div class="card">
+	<br />
+	<div class="card-header">
+		<span> Page : @CurrentPage </span>
+	</div>
+	<div class="card-body">
+		<div class="row m-b-30">
+			<div class="col-lg-8">
+				<div class="d-md-flex">
+					<div class="m-b-10 m-r-15">
+						<select class="custom-select" id="cateID" name="cateID" style="min-width: 200px" asp-items="ViewBag.DanhMuc">
+							<option selected>Choose Category</option>
+							<option value="0">All</option>
+						</select>
 					</div>
-
-					<br />
-					<table class="table">
-						<thead class="bg-light">
-							<tr class="border-0">
-								<th class="border-0">ID</th>
-								<th class="border-0">Image</th>
-								<th class="border-0">Product Name</th>
-								<th class="border-0">Category Name</th>
-								<th class="border-0">In Stock</th>
-								<th class="border-0">Price</th>
-								<th class="border-0">Status</th>
-								<th class="border-0">#</th>
-							</tr>
-						</thead>
-						<tbody>
-							@if (Model != null)
-							{
-								foreach (var item in Model)
-								{
-
-									<tr>
-										<td>@item.ProductId</td>
-										<td>
-											<div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-										</td>
-										<td>@item.ProductName</td>
-										<td>@item.Cate.CateName </td>
-										<td>@item.InStock</td>
-										<td>@item.Price $ </td>
-										<td>
-											@if (item.UnitsInStock.Value > 0)
-											{
-												<p><span class="badge-dot badge-success mr-1"></span>In stock</p>
-											}
-											else
-											{
-												<p><span class="badge-dot badge-danger mr-1"></span>Out stock</p>
-											}
-
-										</td>
-										<td>
-											<a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-											<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-											<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-										</td>
-									</tr>
-
-
-								}
-							}
-						</tbody>
-
-					</table>
-					<br />
-					<div aria-label="Page navigation example ">
-						<ul class="pagination float-right">
-							<pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminProducts" asp-route-cateID="@ViewBag.CurrentCateID" asp-action="Index" />
-						</ul>
-
+					<div class="m-b-10">
+						<select class="custom-select" id="isStock" name="isStock" style="min-width: 180px" asp-items="ViewBag.KhoHang">
+							<option selected>Status</option>
+							<option value="all">All</option>
+							<option value="inStock">In Stock</option>
+							<option value="outStock">Out Stock</option>
+						</select>
 					</div>
 				</div>
 			</div>
+			<div class="col-lg-4 text-right">
+				<a class="btn btn-primary" asp-action="Create">
+					<i class="anticon anticon-plus-circle m-r-5"></i>
+					<span>Add Product</span>
+				</a>
+			</div>
+		</div>
+		<div class="table-responsive" style="max-height: 600px">
+			<table class="table table-hover e-commerce-table dataTable" role="grid">
+				<thead class="bg-light">
+					<tr class="border-0" role="row">
+						<th class="border-0">ID</th>	
+						<th class="border-0">Product</th>
+						<th class="border-0">Category Name</th>
+						<th class="border-0">In Stock</th>
+						<th class="border-0">Price</th>
+						<th class="border-0">Status</th>
+						<th class="border-0"></th>
+					</tr>
+				</thead>
+				<tbody role="row">
+					@if (Model != null)
+					{
+						foreach (var item in Model)
+						{
+							<tr>
+								<td>@item.ProductId</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<img class="img-fluid rounded" src="~/images/products/@item.Image" style="max-width: 60px" alt="">
+										<h6 class="m-b-0 m-l-10">@item.ProductName</h6>
+									</div>
+								</td>
+								<td>@item.Cate.CateName </td>
+								<td>@item.UnitsInStock</td>
+								<td>@item.Price $ </td>
+								<td>
+									@if (item.UnitsInStock.Value > 0)
+									{
+										<p><span class="badge badge-success badge-dot m-r-10"></span>In stock</p>
+									}
+									else
+									{
+										<p><span class="badge badge-danger badge-dot m-r-10"></span>Out stock</p>
+									}
+								</td>
+								<td class="text-right">
+									<a class="btn btn-icon btn-hover btn-sm btn-rounded" asp-action="Details" asp-route-id="@item.ProductId">
+										<i class="anticon anticon-search"></i>
+									</a>
+									<a class="btn btn-icon btn-hover btn-sm btn-rounded " asp-action="Edit" asp-route-id="@item.ProductId">
+										<i class="anticon anticon-edit"></i>
+									</a>
+									<a class="btn btn-icon btn-hover btn-sm btn-rounded" asp-action="Delete" asp-route-id="@item.ProductId">
+										<i class="anticon anticon-delete"></i>
+									</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+			<br />
+			<div aria-label="Page navigation example ">
+				<ul class="pagination float-right">
+					<pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminProducts" asp-route-cateID="@ViewBag.CurrentCateID" asp-action="Index" />
+				</ul>
+			</div>
 		</div>
 	</div>
-	<!-- ============================================================== -->
-	<!-- end recent orders  -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- customer acquistion  -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- end customer acquistion  -->
-	<!-- ============================================================== -->
 </div>
 
 @section Scripts {
@@ -137,6 +141,28 @@
 						}
 					},
 					error: function (xhr) {
+						alert('error')
+					}
+				});
+			});
+
+
+
+			jQuery('#isStock').change(function () {
+				var isStock = jQuery(this).children(":selected").attr("value");
+				$.ajax({
+					url: '/Admin/AdminProducts/CheckHangTonKho',
+					dataType: 'json',
+					type: "GET",
+					data: {
+						isStock: isStock
+					},
+					async: true,
+					success: function (result) {
+
+				
+					},	
+					error: function () {
 						alert('error')
 					}
 				});

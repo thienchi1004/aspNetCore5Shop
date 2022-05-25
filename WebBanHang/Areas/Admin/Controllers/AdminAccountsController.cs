@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace WebBanHang.Areas.Admin.Controllers
     public class AdminAccountsController : Controller
     {
         private readonly dbShopContext _context;
+        public INotyfService _notyfService { get; }
 
-        public AdminAccountsController(dbShopContext context)
+        public AdminAccountsController(dbShopContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminAccounts
@@ -90,7 +93,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "Description", account.RoleId);
             return View(account);
         }
 
@@ -111,6 +114,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(account);
+                    _notyfService.Success("Update successful!");
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,7 +130,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "Description", account.RoleId);
             return View(account);
         }
 
