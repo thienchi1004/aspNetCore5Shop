@@ -57,52 +57,79 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CateId", "CateName", CateID);
             return View(models);
         }
-        public IActionResult Filtter(int CateID = 0)
-        {
-           
-            var url = $"/Admin/AdminProducts?CateID={CateID}";
-            if (CateID == 0)
+		public IActionResult Filtter(int CateID = 0)
+		{
+
+			var url = $"/Admin/AdminProducts?CateID={CateID}";
+			if (CateID == 0)
 			{
-                url = $"/Admin/AdminProducts";
-            }
+				url = $"/Admin/AdminProducts";
+			}
 
 			return Json(new { status = "success", redirectUrl = url });
 		}
-
-        public IActionResult CheckHangTonKho(string isStock, int CateID = 0)
-        {
-            List<Product> lsProducts = new List<Product>();
-   
-
-            if (isStock == "all")
-			{
-               lsProducts = _context.Products
-                   .OrderByDescending(c => c.ProductId).ToList();
-            }
-            else if (isStock == "inStock")
-			{
-                lsProducts = _context.Products
-                    .Where(c => c.UnitsInStock > 0)
-                    .OrderByDescending(c => c.ProductId).ToList();
-            }
-            else if (isStock == "outStock")
-            {
-                lsProducts = _context.Products
-                    .AsNoTracking()
-                    .Where(c => c.UnitsInStock == 0)
-                    .OrderByDescending(c => c.ProductId).ToList();
-            }
-
-            var results = JsonConvert.SerializeObject(lsProducts);
-
-            return Json(new { status = "success", redirectUrl = results });
-        }
+		//public IActionResult Filtter(int CateID = 0)
+		//{
+		//    List<Product> lst = new List<Product>();
+		//    if (CateID == 0)
+		//    {
+		//        return PartialView("ListProductSearchPartial", null);
+		//    }
+		//    lst = _context.Products
+		//        .AsNoTracking()
+		//        .Include(p => p.Cate)
+		//        .Where(p => p.ProductName.Contains(keyword))
+		//        .OrderByDescending(p => p.ProductName)
+		//        .Take(10)
+		//        .ToList();
+		//    if (lst == null)
+		//    {
+		//        return PartialView("ListProductSearchPartial", null);
+		//    }
+		//    else
+		//    {
+		//        return PartialView("ListProductSearchPartial", lst);
+		//    }
 
 
+		//    var url = $"/Admin/AdminProducts?CateID={CateID}";
+		//    if (CateID == 0)
+		//    {
+		//        url = $"/Admin/AdminProducts";
+		//    }
+
+		//    return Json(new { status = "success", redirectUrl = url });
+		//}
 
 
-        // GET: Admin/AdminProducts/Details/5
-        public async Task<IActionResult> Details(int? id)
+		//     public IActionResult CheckHangTonKho(string isStock, int CateID = 0)
+		//     {
+		//         List<Product> lsProducts = new List<Product>();   
+		//         if (isStock == "all")
+		//{
+		//            lsProducts = _context.Products
+		//                .OrderByDescending(c => c.ProductId).ToList();
+		//         }
+		//         else if (isStock == "inStock")
+		//{
+		//             lsProducts = _context.Products
+		//                 .Where(c => c.UnitsInStock > 0)
+		//                 .OrderByDescending(c => c.ProductId).ToList();
+		//         }
+		//         else if (isStock == "outStock")
+		//         {
+		//             lsProducts = _context.Products
+		//                 .AsNoTracking()
+		//                 .Where(c => c.UnitsInStock == 0)
+		//                 .OrderByDescending(c => c.ProductId).ToList();
+		//         }
+
+		//         var results = JsonConvert.SerializeObject(lsProducts);
+		//         return Json(new { status = "success", redirectUrl = results });
+		//     }
+
+		// GET: Admin/AdminProducts/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -112,6 +139,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var product = await _context.Products
                 .Include(p => p.Cate)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
+
             if (product == null)
             {
                 return NotFound();
@@ -201,8 +229,6 @@ namespace WebBanHang.Areas.Admin.Controllers
                     product.Alias = Utilities.SEOUrl(product.ProductName);
                     product.DateModified = DateTime.Now;
 
-
-
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                     _notyfService.Success("Update product successful!");
@@ -255,7 +281,6 @@ namespace WebBanHang.Areas.Admin.Controllers
             _notyfService.Success("Detele product successful!");
             return RedirectToAction(nameof(Index));
         }
-
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);

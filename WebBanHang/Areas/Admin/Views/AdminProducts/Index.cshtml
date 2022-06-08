@@ -24,37 +24,48 @@
 		<span> Page : @CurrentPage </span>
 	</div>
 	<div class="card-body">
-		<div class="row m-b-30">
+		<div class="row m-b-20">
 			<div class="col-lg-8">
 				<div class="d-md-flex">
-					<div class="m-b-10 m-r-15">
-						<select class="custom-select" id="cateID" name="cateID" style="min-width: 200px" asp-items="ViewBag.DanhMuc">
-							<option selected>Choose Category</option>
-							<option value="0">All</option>
-						</select>
+					<div class="col-md-6">
+						<div class="input-affix m-v-10">
+							<select class="custom-select" id="cateID" name="cateID" style="min-width: 200px" asp-items="ViewBag.DanhMuc">
+								<option selected>Choose Category</option>
+								<option value="0">All</option>
+							</select>
+						</div>
 					</div>
-					<div class="m-b-10">
-						<select class="custom-select" id="isStock" name="isStock" style="min-width: 180px" asp-items="ViewBag.KhoHang">
-							<option selected>Status</option>
-							<option value="all">All</option>
-							<option value="inStock">In Stock</option>
-							<option value="outStock">Out Stock</option>
-						</select>
+					<div class="col-md-6">
+						<div class="input-affix m-v-10">
+							<i class="prefix-icon anticon anticon-search opacity-04"></i>
+							<input type="text" id="keyword" name="keyword" class="form-control" placeholder="Search...">
+						</div>
 					</div>
+					@*<div class="m-b-10">
+							<select class="custom-select" id="isStock" name="isStock" style="min-width: 180px" asp-items="ViewBag.KhoHang">
+								<option selected>Status</option>
+								<option value="all">All</option>
+								<option value="inStock">In Stock</option>
+								<option value="outStock">Out Stock</option>
+							</select>
+						</div>*@
 				</div>
 			</div>
 			<div class="col-lg-4 text-right">
-				<a class="btn btn-primary" asp-action="Create">
-					<i class="anticon anticon-plus-circle m-r-5"></i>
-					<span>Add Product</span>
-				</a>
+				<div class="m-v-10">
+					<a class="btn btn-primary" asp-action="Create">
+						<i class="anticon anticon-plus-circle m-r-5"></i>
+						<span>Add Product</span>
+					</a>
+				</div>
+
 			</div>
 		</div>
 		<div class="table-responsive" style="max-height: 600px">
 			<table class="table table-hover e-commerce-table dataTable" role="grid">
 				<thead class="bg-light">
 					<tr class="border-0" role="row">
-						<th class="border-0">ID</th>	
+						<th class="border-0">ID</th>
 						<th class="border-0">Product</th>
 						<th class="border-0">Category Name</th>
 						<th class="border-0">In Stock</th>
@@ -63,7 +74,7 @@
 						<th class="border-0"></th>
 					</tr>
 				</thead>
-				<tbody role="row">
+				<tbody id="result_table">
 					@if (Model != null)
 					{
 						foreach (var item in Model)
@@ -146,25 +157,22 @@
 				});
 			});
 
-
-
-			jQuery('#isStock').change(function () {
-				var isStock = jQuery(this).children(":selected").attr("value");
+			$("#keyword").keyup(function () {
+				var strKeyword = $('#keyword').val();
 				$.ajax({
-					url: '/Admin/AdminProducts/CheckHangTonKho',
-					dataType: 'json',
-					type: "GET",
+					url: '/Admin/Search/FindProducts/',
+					datatype: 'json',
+					type: "POST",
 					data: {
-						isStock: isStock
+						keyword: strKeyword
 					},
 					async: true,
-					success: function (result) {
-						if (result.status == "success") {
-
-						}
-					},	
+					success: function (results) {
+						$("#result_table").html("");
+						$("#result_table").html(results);
+					},
 					error: function (error) {
-						alert(error)
+						console.log(error)
 					}
 				});
 			});

@@ -1,0 +1,41 @@
+﻿@model List<Product>
+
+@if (Model != null)
+{
+	foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.ProductId</td>
+			<td>
+				<div class="d-flex align-items-center">
+					<img class="img-fluid rounded" src="~/images/products/@item.Image" style="max-width: 60px" alt="">
+					<h6 class="m-b-0 m-l-10">@item.ProductName</h6>
+				</div>
+			</td>
+			<td>@item.Cate.CateName </td>
+			<td>@item.UnitsInStock</td>
+			<td>@item.Price $ </td>
+			<td>
+				@if (item.UnitsInStock.Value > 0)
+				{
+					<p><span class="badge badge-success badge-dot m-r-10"></span>In stock</p>
+				}
+				else
+				{
+					<p><span class="badge badge-danger badge-dot m-r-10"></span>Out stock</p>
+				}
+			</td>
+			<td class="text-right">
+				<a class="btn btn-icon btn-hover btn-sm btn-rounded" asp-action="Details" asp-route-id="@item.ProductId">
+					<i class="anticon anticon-search"></i>
+				</a>
+				<a class="btn btn-icon btn-hover btn-sm btn-rounded " asp-action="Edit" asp-route-id="@item.ProductId">
+					<i class="anticon anticon-edit"></i>
+				</a>
+				<a class="btn btn-icon btn-hover btn-sm btn-rounded" asp-action="Delete" asp-route-id="@item.ProductId">
+					<i class="anticon anticon-delete"></i>
+				</a>
+			</td>
+		</tr>
+	}
+}
